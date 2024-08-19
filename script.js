@@ -23,7 +23,9 @@ function calculateEarnings() {
     }
 
     const earnings = (totalHoursWorked * hourlyRate).toFixed(2);
+    let assumedEarnings =  ((morningEnd - morningStart) + (afternoonEnd - afternoonStart)) / 1000 / 60 / 60 * hourlyRate;
     document.getElementById('earnings').innerText = earnings;
+    document.getElementById('assumed-earnings').innerText = assumedEarnings;
 }
 
 function parseTime(timeString) {
