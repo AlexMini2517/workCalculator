@@ -70,4 +70,7 @@ document.getElementById('hourly-rate').addEventListener('input', () => {
     hourlyRate = parseFloat(document.getElementById('hourly-rate').value);
 });
 
+// limit the day choices to a day <= today
+document.getElementById('starting-day').max = new Date().toISOString().split("T")[0];
+
 setInterval(calculateEarnings, 1000);
