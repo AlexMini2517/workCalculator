@@ -35,7 +35,7 @@ function parseTime(timeString) {
 
 document.getElementById('reset-btn').addEventListener('click', () => {
     document.getElementById('hourly-rate').value = '7.68';
-    document.getElementById('start-time-morning').value = '09:30';
+    document.getElementById('start-time-morning').value = '10:30';
     document.getElementById('end-time-morning').value = '13:30';
     document.getElementById('start-time-afternoon').value = '14:30';
     document.getElementById('end-time-afternoon').value = '19:30';
