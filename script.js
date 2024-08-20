@@ -1,3 +1,17 @@
+function getSelectedWorkdays() {
+    const checkboxes = document.querySelectorAll('#workdays input[type="checkbox"]:checked');
+    let selectedDays = [];
+    checkboxes.forEach((checkbox) => {
+        selectedDays.push(parseInt(checkbox.value));
+    });
+    return selectedDays;
+}
+
+function shouldWork(dayOfWeek) {
+    const workdays = getSelectedWorkdays();
+    return workdays.includes(dayOfWeek);
+}
+
 function calculateEarnings() {
     const morningStart = parseTime(document.getElementById('start-time-morning').value); // 10:30
     const morningEnd = parseTime(document.getElementById('end-time-morning').value); // 13:30
@@ -10,9 +24,9 @@ function calculateEarnings() {
     const currentDay = currentTime.getDate(); // 1-31
     const dayOfWeek = currentTime.getDay(); // sunday = 0, monday = 1, ..., saturday = 6
 
-    // Calcola le ore lavorate nel turno di mattina
+    // Calcola le ore lavorate nel giorno corrente
     let totalHoursWorked = 0;
-    if (dayOfWeek == 6 || dayOfWeek == 0) { // if it's a saturday (6) or sunday (0)
+    if (shouldWork(dayOfWeek)) { // if it's a saturday (6) or sunday (0)
         // Calcola le ore lavorate nel turno di mattina
         if (currentTime > morningStart && currentTime < morningEnd) {
             totalHoursWorked += (currentTime - morningStart) / 1000 / 60 / 60;
@@ -35,7 +49,7 @@ function calculateEarnings() {
         const date = new Date(currentTime.getFullYear(), currentMonth, day);
         const dayOfWeek = date.getDay();
 
-        if (dayOfWeek == 6 || dayOfWeek == 0) { // if it's a saturday (6) or sunday (0)
+        if (shouldWork(dayOfWeek)) { // if it's a saturday (6) or sunday (0)
             totalAssumedEarnings += ((morningEnd - morningStart) + (afternoonEnd - afternoonStart)) / 1000 / 60 / 60 * hourlyRate;
         }
     }
@@ -62,6 +76,10 @@ document.getElementById('reset-btn').addEventListener('click', () => {
     document.getElementById('earnings').innerText = '0.00';
     document.getElementById('assumed-earnings').innerText = '0.00';
     console.log(new Date().toISOString().split('T')[0]);
+    let checkboxes = document.querySelectorAll('#workdays input[type="checkbox"]:checked');
+    checkboxes.forEach((checkbox) => {
+        checkbox.checked = false;
+    });
 });
 
 let hourlyRate = parseFloat(document.getElementById('hourly-rate').value);
